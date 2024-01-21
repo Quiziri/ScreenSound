@@ -1,23 +1,18 @@
 ﻿using ScreenSound.Menus;
 using ScreenSound.Modelos;
 
-Banda ira = new Banda("Ira!");
-ira.AdicionarNota(new Avaliacao(10));
-ira.AdicionarNota(new Avaliacao(8));
-ira.AdicionarNota(new Avaliacao(6));
-Banda beatles = new("The Beatles");
+Artista ira = new Artista("Ira!", "Banda Ira!");
+Artista beatles = new("The Beatles", "Banda The Beatles");
 
-Dictionary<string, Banda> bandasRegistradas = new();
-bandasRegistradas.Add(ira.Nome, ira);
-bandasRegistradas.Add(beatles.Nome, beatles);
+Dictionary<string, Artista> artistasRegistrados = new();
+artistasRegistrados.Add(ira.Nome, ira);
+artistasRegistrados.Add(beatles.Nome, beatles);
 
 Dictionary<int, Menu> opcoes = new();
-opcoes.Add(1, new MenuRegistrarBanda());
-opcoes.Add(2, new MenuRegistrarAlbum());
-opcoes.Add(3, new MenuMostrarBandas());
-opcoes.Add(4, new MenuAvaliarBanda());
-opcoes.Add(5, new MenuAvaliarAlbum());
-opcoes.Add(6, new MenuExibirDetalhes());
+opcoes.Add(1, new MenuRegistrarArtista());
+opcoes.Add(2, new MenuRegistrarMusica());
+opcoes.Add(3, new MenuMostrarArtistas());
+opcoes.Add(4, new MenuMostrarMusicas());
 opcoes.Add(-1, new MenuSair());
 
 void ExibirLogo()
@@ -31,18 +26,16 @@ void ExibirLogo()
 ██████╔╝╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
 ╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░
 ");
-    Console.WriteLine("Boas vindas ao Screen Sound 2.0!");
+    Console.WriteLine("Boas vindas ao Screen Sound 3.0!");
 }
 
 void ExibirOpcoesDoMenu()
 {
     ExibirLogo();
-    Console.WriteLine("\nDigite 1 para registrar uma banda");
-    Console.WriteLine("Digite 2 para registrar o álbum de uma banda");
-    Console.WriteLine("Digite 3 para mostrar todas as bandas");
-    Console.WriteLine("Digite 4 para avaliar uma banda");
-    Console.WriteLine("Digite 5 para avaliar um álbum");
-    Console.WriteLine("Digite 6 para exibir os detalhes de uma banda");
+    Console.WriteLine("\nDigite 1 para registrar um artista");
+    Console.WriteLine("Digite 2 para registrar a música de um artista");
+    Console.WriteLine("Digite 3 para mostrar todos os artistas");
+    Console.WriteLine("Digite 4 para exibir todas as músicas de um artista");
     Console.WriteLine("Digite -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
@@ -52,9 +45,10 @@ void ExibirOpcoesDoMenu()
     if (opcoes.ContainsKey(opcaoEscolhidaNumerica))
     {
         Menu menuASerExibido = opcoes[opcaoEscolhidaNumerica];
-        menuASerExibido.Executar(bandasRegistradas);
-        if(opcaoEscolhidaNumerica > 0) ExibirOpcoesDoMenu();
-    } else
+        menuASerExibido.Executar(artistasRegistrados);
+        if (opcaoEscolhidaNumerica > 0) ExibirOpcoesDoMenu();
+    } 
+    else
     {
         Console.WriteLine("Opção inválida");
     }
