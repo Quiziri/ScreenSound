@@ -1,4 +1,4 @@
-﻿using ScreenSound.Banco;
+﻿using ScreenSound.Modelos;
 
 namespace ScreenSound.Menus;
 
@@ -12,7 +12,7 @@ internal class Menu
         Console.WriteLine(titulo);
         Console.WriteLine(asteriscos + "\n");
     }
-    public virtual void Executar(ArtistaDAL artistaDAL)
+    public virtual void Executar(Dictionary<string, Artista> nusicasRegistradas)
     {
         Console.Clear();
     }
