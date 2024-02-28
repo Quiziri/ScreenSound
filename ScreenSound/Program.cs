@@ -4,9 +4,15 @@ using ScreenSound.Modelos;
 
 try
 {
-    using var connection = new Connection().ObterConexao();
-    connection.Open();
-    Console.WriteLine(connection.State);
+    var artistaDAL = new ArtistaDAL();
+    artistaDAL.Adicionar(new Artista("Foo Fighters", "Foo Fighters é uma banda de rock alternativo americana formada por Dave Grohl em 1995."));
+
+    var listaArtistas = artistaDAL.Listar();
+
+    foreach ( var artista in listaArtistas)
+    {
+        Console.WriteLine(artista);
+    }
 }
 catch(Exception ex)
 {
