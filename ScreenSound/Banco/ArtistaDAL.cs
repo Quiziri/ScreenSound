@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ScreenSound.Banco;
-
 internal class ArtistaDAL
 {
     private readonly ScreenSoundContext context;
@@ -26,18 +25,24 @@ internal class ArtistaDAL
     {
         context.Artistas.Add(artista);
         context.SaveChanges();
+
     }
 
     public void Atualizar(Artista artista)
     {
         context.Artistas.Update(artista);
-        context.SaveChanges(true);
-               
+        context.SaveChanges();
     }
 
     public void Deletar(Artista artista)
     {
         context.Artistas.Remove(artista);
         context.SaveChanges();
+    }
+
+    public Artista? RecuperarPeloNome(string nome)
+    {
+        return context.Artistas.FirstOrDefault(a => a.Nome.Equals(nome));
+
     }
 }
