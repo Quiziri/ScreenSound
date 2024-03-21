@@ -2,6 +2,11 @@
 
 public class Musica
 {
+    public Musica()
+    {
+
+    }
+
     public Musica(string nome)
     {
         Nome = nome;
@@ -10,6 +15,7 @@ public class Musica
     public string Nome { get; set; }
     public int Id { get; set; }
     public int? AnoLancamento { get; set; }
+    public int? MusicaId { get; set; }
     public virtual Artista? Artista { get; set; }
 
     public void ExibirFichaTecnica()
@@ -20,7 +26,6 @@ public class Musica
 
     public override string ToString()
     {
-        return @$"Id: {Id}
-        Nome: {Nome}";
+        return @$"Id: {Id} Nome: {Nome}";
     }
 }
