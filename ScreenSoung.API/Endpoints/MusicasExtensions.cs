@@ -27,13 +27,13 @@ public static class MusicasExtensions
             return Results.Ok(musica);
         });
 
-        app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequest musicaRequest) =>
+        app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromServices] DAL<Genero> dalGenero, [FromBody] MusicaRequest musicaRequest) =>
         {
             var musica = new Musica(musicaRequest.nome)
             {
                 ArtistaId = musicaRequest.ArtistaId,
                 AnoLancamento = musicaRequest.anoLancamento,
-                Generos = musicaRequest.Generos is not null? GerenoRequestConverter(musicaRequest.Generos) : new List<Genero>()
+                Generos = musicaRequest.Generos is not null? GerenoRequestConverter(musicaRequest.Generos, dalGenero) : new List<Genero>()
             };
             dal.Adicionar(musica);
             return Results.Ok();
@@ -66,9 +66,23 @@ public static class MusicasExtensions
         #endregion
     }
 
-    private static ICollection<Genero> GerenoRequestConverter(ICollection<GeneroRequest> generos)
+    private static ICollection<Genero> GerenoRequestConverter(ICollection<GeneroRequest> generos, DAL<Genero> dalGenero)
     {
-        return generos.Select(a => RequestToEntity(a)).ToList();
+        var listaDeGeneros = new List<Genero>();
+        foreach (var item in generos)
+        {
+            var entity = RequestToEntity(item);
+            var genero = dalGenero.RecuperarPor(g => g.Nome.ToUpper().Equals(item.Nome.ToUpper()));
+            if(genero is null)
+            {
+                listaDeGeneros.Add(genero);
+            }
+            else
+            {
+                listaDeGeneros.Add(entity);
+            }
+        }
+        return listaDeGeneros;
     }
 
     private static Genero RequestToEntity(GeneroRequest genero)
