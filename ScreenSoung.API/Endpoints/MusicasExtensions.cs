@@ -87,7 +87,7 @@ public static class MusicasExtensions
 
     private static Genero RequestToEntity(GeneroRequest genero)
     {
-        return new Genero() { Nome = genero.Nome, Descrição = genero.Descricao };
+        return new Genero() { Nome = genero.Nome, Descricao = genero.Descricao };
     }
 
     private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicaList)
