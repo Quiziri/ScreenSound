@@ -9,7 +9,9 @@ public class ScreenSoundContext: DbContext
     public DbSet<Musica> Musicas { get; set; }
     public DbSet<Genero> Generos { get; set; }
 
-    private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ScreenSoundV0;Integrated Security=True;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+    //private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ScreenSoundV0;Integrated Security=True;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+    private string connectionString = "Server=tcp:screensoundserverx.database.windows.net,1433;Initial Catalog=ScreenSoundV0;Persist Security Info=False;User ID=joao;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
     public ScreenSoundContext(DbContextOptions options) : base(options)
     {
