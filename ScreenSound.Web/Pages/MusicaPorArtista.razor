@@ -1,0 +1,20 @@
+﻿@page "/MusicasPorArtista"
+@inject MusicaAPI musicasAPI
+
+<h3>Músicas por artista</h3>
+@if(musicas is not null)
+{
+    foreach (var musica in musicas)
+    {
+        <p>@musica.Nome</p>
+    }
+}
+
+@code {
+    private ICollection<MusicaResponse>? musicas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        musicas = await musicasAPI.GetMusicaAsync();
+    }
+}
