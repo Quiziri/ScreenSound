@@ -1,7 +1,6 @@
 ﻿using ScreenSound.Web.Requests;
 using ScreenSound.Web.Response;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
 
 namespace ScreenSound.Web.Services;
 
