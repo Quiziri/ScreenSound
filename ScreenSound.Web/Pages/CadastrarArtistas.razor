@@ -19,6 +19,18 @@
                       Lines="4"
                       Required="true"
                       RequiredError="Campo obrigatório." />
+        <MudImage Class="mt-4" src="@fileImage" />
+        <MudFileUpload T="IBrowserFile" Accept=".jpeg" FilesChanged="UploadFile">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.PhotoCamera"
+                           for="@context">
+                    Foto de Perfil
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
 
         <div class="d-flex justify-space-between mt-4">
             <MudButton Variant="Variant.Filled" @onclick="Voltar" Color="Color.Primary"> Voltar </MudButton>
@@ -33,6 +45,8 @@
     private string? nome;
     private string? biografia;
 
+    private string? fileImage;
+
     private async Task Cadastrar()
     {
         var request = new ArtistaRequest(nome!, biografia!);
@@ -43,5 +57,18 @@
     private void Voltar()
     {
         navigationManager.NavigateTo("/Artistas");
+    }
+
+    private async Task UploadFile(IBrowserFile file)
+    {
+        long maxFileSize = 1024 * 1024 * 15;
+        var format = "image/jpeg";
+        var resizedImage = await file.RequestImageFileAsync(format, 200, 200);
+
+        using var fileStrem = resizedImage.OpenReadStream();
+        using var memoryStream = new MemoryStream();
+        await fileStrem.CopyToAsync(memoryStream);
+
+        fileImage = $"data:{format};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
     }
 }
