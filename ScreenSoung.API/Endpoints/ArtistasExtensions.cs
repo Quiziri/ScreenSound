@@ -3,6 +3,7 @@ using ScreenSound.API.Requests;
 using ScreenSound.API.Response;
 using ScreenSound.Banco;
 using ScreenSound.Modelos;
+using ScreenSound.Web.Requests;
 
 namespace ScreenSound.API.Endpoints;
 
@@ -26,9 +27,22 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
 
-        app.MapPost("/Artistas", ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
+        app.MapPost("/Artistas", async ([FromServices]IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
         {
-            var artista = new Artista(artistaRequest.nome, artistaRequest.bio);
+            var nome = artistaRequest.nome.Trim();
+            var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpeg";
+
+            var path = Path.Combine(env.ContentRootPath, "wwwroot", "FotosPerfil", imagemArtista);
+
+            using MemoryStream ms = new MemoryStream(Convert.FromBase64String(artistaRequest.fotoPerfil!));
+            using FileStream fs = new(path, FileMode.Create);
+            await ms.CopyToAsync(fs);
+
+            var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
+            {
+                FotoPerfil = $"/FotoPerfil/{imagemArtista}"
+            };
+
             dal.Adicionar(artista);
             return Results.Ok();
         });

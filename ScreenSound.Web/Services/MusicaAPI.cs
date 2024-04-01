@@ -13,8 +13,6 @@ public class MusicaAPI
 
     public async Task<ICollection<MusicaResponse>?> GetMusicaAsync()
     {
-        return await
-            _httpClient.GetFromJsonAsync<ICollection<MusicaResponse>>
-            ("musicas");
+        return await _httpClient.GetFromJsonAsync<ICollection<MusicaResponse>>("musicas");
     }
 }

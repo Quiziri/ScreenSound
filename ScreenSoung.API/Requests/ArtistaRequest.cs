@@ -1,3 +1,4 @@
-﻿namespace ScreenSound.API.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record ArtistaRequest(string nome, string bio);
+namespace ScreenSound.Web.Requests;
+public record ArtistaRequest([Required] string nome, [Required] string bio, string? fotoPerfil);
