@@ -9,7 +9,7 @@ namespace ScreenSound.API.Endpoints;
 
 public static class MusicasExtensions
 {
-    public static void AddEndPointMusicas(this WebApplication app)
+    public static void AddEndPointsMusicas(this WebApplication app)
     {
         #region Endpoint Muisicas
         app.MapGet("/Musicas", ([FromServices] DAL<Musica> dal) =>

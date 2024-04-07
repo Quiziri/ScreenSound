@@ -9,7 +9,7 @@ namespace ScreenSound.API.Endpoints;
 
 public static class GeneroExtensions
 {
-    public static void AddEndPointGeneros(this WebApplication app)
+    public static void AddEndPointsGeneros(this WebApplication app)
     {
         app.MapPost("/Generos", ([FromServices] DAL<Genero> dal, [FromBody] GeneroRequest generoReq) =>
         {

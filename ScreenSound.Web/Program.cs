@@ -10,8 +10,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 
-builder.Services.AddTransient<ArtistaAPI>();
-builder.Services.AddTransient<MusicaAPI>();
+builder.Services.AddScoped<ArtistaAPI>();
+builder.Services.AddScoped<MusicaAPI>();
 
 builder.Services.AddHttpClient("API", client =>
 {
