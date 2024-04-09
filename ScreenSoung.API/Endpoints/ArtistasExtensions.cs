@@ -11,23 +11,33 @@ public static class ArtistasExtensions
 {
     public static void AddEndPointsArtistas(this WebApplication app)
     {
-        #region Endpoint Artistas
-        app.MapGet("/Artistas", ([FromServices] DAL<Artista> dal) =>
-        {
-            return Results.Ok(dal.Listar());
-        });
+        var groupBuilder = app.MapGroup("artistas")
+            .RequireAuthorization()
+            .WithTags("Artistas");
 
-        app.MapGet("/Artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
+        #region Endpoint Artistas
+        groupBuilder.MapGet("", ([FromServices] DAL<Artista> dal) =>
         {
-            var artista = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
-            if (artista is null)
+            var listaDeArtistas = dal.Listar();
+            if(listaDeArtistas is null)
             {
                 return Results.NotFound();
             }
-            return Results.Ok(artista);
+            var listaDeARtistasResponse = EntityListToResponseList(listaDeArtistas);
+            return Results.Ok(listaDeARtistasResponse);
+        }).RequireAuthorization();
+
+        groupBuilder.MapGet("{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
+        {
+            var artista = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
+            if(artista is null)
+            {
+                return Results.NotFound();
+            }
+            return Results.Ok(EntityToResponse(artista));
         });
 
-        app.MapPost("/Artistas", async ([FromServices]IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
+        groupBuilder.MapPost("", async ([FromServices]IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
         {
             var nome = artistaRequest.nome.Trim();
             var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpeg";
@@ -47,7 +57,7 @@ public static class ArtistasExtensions
             return Results.Ok();
         });
 
-        app.MapDelete("/Artistas/{id}", ([FromServices] DAL<Artista> dal, int id) =>
+        groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
         {
             var artista = dal.RecuperarPor(a => a.Id == id);
             if (artista is null)
@@ -58,7 +68,7 @@ public static class ArtistasExtensions
             return Results.NoContent();
         });
 
-        app.MapPut("/Artistas", ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequestEdit artistaRequestEdit) =>
+        groupBuilder.MapPut("", ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequestEdit artistaRequestEdit) =>
         {
             var artistaAAtualizar = dal.RecuperarPor(a => a.Id == artistaRequestEdit.Id);
             if (artistaAAtualizar is null)

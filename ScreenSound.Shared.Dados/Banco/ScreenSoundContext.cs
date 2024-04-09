@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ScreenSound.Modelos;
+using ScreenSound.Shared.Dados.Modelos;
 using ScreenSound.Shared.Modelos.Modelos;
 
 namespace ScreenSound.Banco;
-public class ScreenSoundContext: DbContext
+public class ScreenSoundContext: IdentityDbContext<PessoaComAcesso, PerfilDeAcesso, int>
 {
     public DbSet<Artista> Artistas { get; set; }
     public DbSet<Musica> Musicas { get; set; }
     public DbSet<Genero> Generos { get; set; }
-
-    //private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ScreenSoundV0;Integrated Security=True;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
     private string connectionString = "Server=tcp:screensoundserverx.database.windows.net,1433;Initial Catalog=ScreenSoundV0;Persist Security Info=False;User ID=joao;Password=@Quiziri1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
