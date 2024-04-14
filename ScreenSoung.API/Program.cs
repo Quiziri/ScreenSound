@@ -24,10 +24,13 @@ builder.Services.AddDbContext<ScreenSoundContext>((options) =>
         .UseLazyLoadingProxies();
 });
 
-builder.Services.AddIdentityApiEndpoints<PessoaComAcesso>().AddEntityFrameworkStores<ScreenSoundContext>();
+builder.Services
+    .AddIdentityApiEndpoints<PessoaComAcesso>()
+    .AddEntityFrameworkStores<ScreenSoundContext>();
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddTransient<DAL<PessoaComAcesso>>(); 
 builder.Services.AddTransient<DAL<Artista>>();
 builder.Services.AddTransient<DAL<Musica>>();
 builder.Services.AddTransient<DAL<Genero>>();
